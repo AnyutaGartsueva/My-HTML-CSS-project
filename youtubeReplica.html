@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="style.css" />
+		<title>Youtube</title>
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+				box-sizing: border-box;
+				text-decoration: none;
+				list-style: none;
+			}
+
+			body {
+				font-family: "Roboto", Arial, sans-serif;
+				font-size: 16px;
+				padding-top: 56px;
+			}
+
+			.container {
+				width: 100%;
+				height: 100vh;
+			}
+
+			header {
+				width: 100%;
+				height: 56px;
+				display: flex;
+				position: fixed;
+				top: 0;
+				left: 0;
+				background: rgba(255, 255, 255, 254);
+				z-index: 20;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 16px;
+			}
+
+			.left-box {
+				display: flex;
+				height: 100%;
+				padding-left: 8px;
+			}
+			.left-box img {
+				height: 100%;
+			}
+
+			.burger {
+				height: 100%;
+				padding: 16px 0;
+			}
+			.burger img {
+				border-radius: 16px;
+			}
+
+			.youtube-logo {
+				display: flex;
+				height: 100%;
+				padding: 18px 14px 18px 16px;
+			}
+
+			.country-code {
+				font-size: 9px;
+				font-weight: 400;
+				margin: -5px 0 0 5px;
+			}
+
+			.center-box {
+				display: flex;
+				flex: 1;
+				height: 100%;
+				width: 100%;
+				padding: 8px 0;
+				max-width: 666px;
+				margin-left: 40px;
+				margin-right: 40px;
+			}
+			.center-box-input {
+				width: 100%;
+				border-top-left-radius: 32px;
+				border-bottom-left-radius: 32px;
+				border: 1px solid rgb(205, 205, 204);
+				border-right: none;
+				box-shadow: inset 0 1px 2px var(#eee);
+				border: 1px solid rgb(205, 205, 204);
+				border-right: none;
+				box-shadow: inset 0 1px 2px var(#eee);
+				font-size: 16px;
+				padding-left: 16px;
+			}
+			.btn-scope {
+				width: 64px;
+				border-top-right-radius: 32px;
+				border-bottom-right-radius: 32px;
+				border: 1px solid rgb(211, 210, 210);
+				padding-top: 5px;
+				flex-shrink: 0;
+			}
+			.btn-mic {
+				width: 40px;
+				border-radius: 20px;
+				border: none;
+				background: rgb(243, 243, 242);
+				margin-left: 12px;
+				flex-shrink: 0;
+			}
+			.tooltip {
+				position: relative;
+			}
+			.tooltip:hover .tooltip-text {
+				visibility: visible;
+			}
+
+			.tooltip-text {
+				/* display: none; */
+				visibility: hidden;
+				display: inline-block;
+				position: absolute;
+				white-space: nowrap;
+				padding: 8px;
+				border-radius: 5px;
+				transform: translateX(-50%);
+				bottom: -50px;
+				font-size: 12px;
+				background: rgba(0, 0, 0, 0.5);
+				color: #eee;
+			}
+
+			.right-box {
+				display: flex;
+				height: 100%;
+				padding: 8px;
+			}
+			.right-box ul {
+				display: flex;
+			}
+			.right-box ul li {
+				display: flex;
+				padding: 8px 11px;
+			}
+			.right-box ul .profile {
+				padding: 4px 20px;
+			}
+			.right-box ul .profile img {
+				border-radius: 16px;
+			}
+			@media (width <= 650px) {
+				.center-box {
+					display: none;
+				}
+				.right-box ul li:nth-child(1) {
+					display: block;
+				}
+				.right-box ul li:nth-child(2) {
+					display: block;
+				}
+			}
+			@media (650px < width) {
+				.right-box ul li:nth-child(1) {
+					display: none;
+				}
+				.right-box ul li:nth-child(2) {
+					display: none;
+				}
+			}
+
+			.tag-container {
+				position: fixed;
+				top: 56px;
+				left: 0;
+				padding-left: 240px;
+				height: 56px;
+				width: 100%;
+				z-index: 10;
+				display: flex;
+				align-items: center;
+				/* margin-left: 24px; */
+				gap: 12px;
+				background: white;
+
+				white-space: nowrap;
+				overflow-x: auto;
+				overflow-y: scroll;
+				-ms-overflow-style: none;
+				scrollbar-width: none;
+			}
+			.tag-item {
+				display: flex;
+				align-items: center;
+				height: 32px;
+				padding: 0 12px;
+				background: #f2f2f2;
+				border-radius: 8px;
+				font-size: 14px;
+				line-height: 20px;
+				font-weight: 500;
+				font-family: "Roboto", sans-serif;
+				color: #0f0f0f;
+			}
+			.tag-item:first-child {
+				background-color: black;
+				color: white;
+			}
+			.item:hover {
+				background: rgb(181, 178, 178);
+			}
+
+			main {
+				padding-top: 56px;
+				padding-left: 20px;
+				padding-right: 20px;
+				width: 100%;
+				position: relative;
+			}
+			.article-container {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+				padding-left: 240px;
+				gap: 12px;
+			}
+			.article {
+				background: white;
+				margin-bottom: 40px;
+			}
+			.article-img {
+				width: 100%;
+				position: relative;
+				/* height: 100%; */
+			}
+			.hero {
+				width: 100%;
+				border-radius: 8px;
+			}
+			.total-time {
+				font-size: 12px;
+				padding: 3px;
+				position: absolute;
+				right: 10px;
+				bottom: 10px;
+				color: white;
+				background: rgba(0, 0, 0, 0.5);
+				border-radius: 4px;
+			}
+			.desc {
+				display: flex;
+			}
+			.desc img {
+				width: 36px;
+				height: 36px;
+				flex-shrink: 0;
+			}
+			.avatar {
+				width: 36px;
+				height: 36px;
+				margin: 12px 12px 0 0;
+				border-radius: 17px;
+			}
+			.desc-text {
+				margin-top: 12px;
+			}
+			.title {
+				font-weight: 500;
+				font-size: 16px;
+				line-height: 22px;
+				color: rgba(15, 15, 15, 1);
+
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+			}
+			.user {
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 20px;
+				color: rgba(96, 96, 96, 1);
+
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+			}
+			.stats {
+				font-weight: 400;
+				font-size: 14px;
+				line-height: 20px;
+				color: rgba(96, 96, 96, 1);
+
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+			}
+
+			nav {
+				display: flex;
+				flex-direction: column;
+				position: fixed;
+				width: 216px;
+				left: 0;
+				top: 56px;
+				bottom: 0;
+				z-index: 20;
+				background: white;
+				overflow-y: auto;
+				scrollbar-width: none;
+
+				width: 240px;
+				padding: 12px;
+			}
+			nav ul {
+				padding-right: 10px;
+			}
+			nav li {
+				display: flex;
+				font-size: 16px;
+				padding: 10px 12px;
+				align-items: center;
+				border-radius: 10px;
+
+				font-weight: 400;
+				border-radius: 10px;
+				color: rgba(15, 15, 15, 1);
+				line-height: 14px;
+			}
+			nav li img {
+				width: 24px;
+				height: 24px;
+				margin-bottom: 6px;
+			}
+			nav li:hover {
+				background: #f2f2f2;
+			}
+			nav .title {
+				font-size: 14px;
+
+				overflow: hidden;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+			}
+			.separator {
+				border-top: 1px solid lightgray;
+				margin-top: 12px;
+				padding-top: 12px;
+			}
+			.nav-small {
+				width: 100%;
+			}
+
+			@media (width<=680px) {
+				nav {
+					display: none;
+				}
+				.tag-container {
+					padding-left: 10px;
+				}
+				.article-container {
+					grid-template-columns: 1fr;
+					padding-left: 0px;
+				}
+				.title {
+					overflow: hidden;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
+				}
+				nav .title {
+					font-size: 10px;
+				}
+			}
+
+			@media (680px < width <=780px) {
+				nav {
+					display: none;
+				}
+				.tag-container {
+					padding-left: 10px;
+				}
+				.article-container {
+					grid-template-columns: 1fr 1fr;
+					padding-left: 0px;
+				}
+				nav .title {
+					font-size: 10px;
+				}
+			}
+
+			@media (780px < width <=1080px) {
+				nav {
+					width: 72px;
+					padding: 0 4px;
+				}
+				nav ul {
+					padding-right: 0;
+				}
+				nav li {
+					padding: 16px 0px 14px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					background: white;
+					font-size: 10px;
+					line-height: 14px;
+					border-radius: 10px;
+					color: rgba(15, 15, 15, 1);
+				}
+				.article-container {
+					grid-template-columns: 1fr 1fr;
+					padding-left: 80px;
+				}
+				.tag-container {
+					padding-left: 80px;
+				}
+				nav .title {
+					font-size: 10px;
+				}
+				.nav-small {
+					display: none;
+				}
+			}
+
+			@media (1080px < width <=1320px) {
+				nav {
+					width: 72px;
+					padding: 0 4px;
+				}
+				nav ul {
+					padding-right: 0px;
+				}
+				nav li {
+					padding: 16px 0px 14px;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+					background: white;
+					font-size: 10px;
+					line-height: 14px;
+					border-radius: 10px;
+					color: rgba(15, 15, 15, 1);
+				}
+				.tag-container {
+					padding-left: 80px;
+				}
+				.article-container {
+					padding-left: 80px;
+				}
+				nav .title {
+					font-size: 10px;
+				}
+				.nav-small {
+					display: none;
+				}
+			}
+
+			@media (1320 < width <= 1570px) {
+				.article-container {
+					grid-template-columns: 1fr 1fr 1fr;
+				}
+				.nav-small {
+					display: none;
+				}
+			}
+
+			@media (1570px < width) {
+				.article-container {
+					grid-template-columns: 1fr 1fr 1fr 1fr;
+				}
+				.nav-small {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class=".container">
+			<header>
+				<div class="left-box">
+					<div class="burger">
+						<img src="./images/burger.svg" alt="burger.svg" />
+					</div>
+					<div class="youtube-logo">
+						<img src="./images/youtube-logo.svg" alt="youtube-logo.svg" />
+						<span class="country-code">ENG</span>
+					</div>
+				</div>
+				<div class="center-box">
+					<input class="center-box-input" placeholder="Search" />
+					<button class="btn-scope">
+						<img src="./images/scope.svg" alt="scope.svg" />
+					</button>
+					<button class="btn-mic">
+						<div class="tooltip">
+							<img src="./images/mic.svg" alt="mic.svg" />
+							<div class="tooltip-text">音声で検索</div>
+						</div>
+					</button>
+				</div>
+
+				<div class="right-box">
+					<ul>
+						<li class="scope">
+							<img src="./images/scope.svg" alt="scope.svg" />
+						</li>
+						<li><img src="./images/mic.svg" alt="mic.svg" /></li>
+						<li><img src="./images/video.svg" alt="video.svg" /></li>
+						<li><img src="./images/bell.svg" alt="bell.svg" /></li>
+						<li class="profile">
+							<img src="./images/me.jpg" alt="raichel-avatar.jpeg" />
+						</li>
+					</ul>
+				</div>
+			</header>
+		</div>
+
+		<div class="tag-container">
+			<div class="tag-item">All</div>
+			<div class="tag-item">Music</div>
+			<div class="tag-item">Gaming</div>
+			<div class="tag-item">Mixes</div>
+			<div class="tag-item">Scratches</div>
+			<div class="tag-item">Pshychology</div>
+			<div class="tag-item">Computer programming</div>
+			<div class="tag-item">News</div>
+		</div>
+
+		<nav>
+			<ul>
+				<li>
+					<img src="./images/yt-home.svg" alt="yt-home.svg" />
+					<span class="title">Home</span>
+				</li>
+				<li>
+					<img src="./images/yt-short.svg" alt="yt-short.svg" />
+					<span class="title">Shorts</span>
+				</li>
+				<li>
+					<img src="./images/yt-r-channel.svg" alt="yt-r-channel.svg" />
+					<span class="title">My channel</span>
+				</li>
+			</ul>
+			<div class="separator">
+				<ul>
+					<li>You ></li>
+				</ul>
+			</div>
+			<div class="nav-small">
+				<ul>
+					<li>
+						<img src="./images/yt-history.svg" alt="History" />
+						<span class="title">History</span>
+					</li>
+					<li>
+						<img src="./images/yt-play-list.svg" alt="Play list" />
+						<span class="title">Play list</span>
+					</li>
+					<li>
+						<img src="./images/yt-later.svg" alt="Later" />
+						<span class="title">Later</span>
+					</li>
+					<li>
+						<img src="./images/yt-music.svg" alt="yt-music.svg" />
+						<span class="title">YouTube Music</span>
+					</li>
+				</ul>
+
+				<div class="separator">
+					<ul>
+						<li>Navigation</li>
+					</ul>
+				</div>
+				<ul>
+					<li>
+						<img src="./images/my-channel.svg" alt="My movie" />
+						<span class="title">My movie</span>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<main>
+			<div class="article-container">
+				<div class="article">
+					<div class="article-img">
+						<img class="hero" src="./images/raichel.webp" alt="" />
+						<span class="total-time">10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/raichel-avatar.jpeg"
+							alt="raichel"
+						/>
+						<div class="desc-text">
+							<div class="title">
+								Pitch Perfect! Unlock this [Powerful] Secret to Sounding
+								American
+							</div>
+							<div class="user">Rachel's English</div>
+							<div class="stats">13,887 回視聴 2 日前 20 分</div>
+						</div>
+					</div>
+				</div>
+				<div class="article">
+					<div class="article-img">
+						<img class="hero" src="./images/music.png" alt="" />
+						<span class="total-time">1:10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/channels4_profile.jpg"
+							alt=""
+						/>
+						<div class="desc-text">
+							<div class="title">
+								A. Alyabyev – A. Yashiro. «The Nightingale» is arranged
+								for flute and piano.
+							</div>
+							<div class="user">Petr Khudonogov</div>
+							<div class="stats">415 тыс. просмотров 9 лет назад</div>
+						</div>
+					</div>
+				</div>
+				<div class="article">
+					<div class="article-img">
+						<img class="hero" src="./images/music.png" alt="" />
+						<span class="total-time">1:10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/channels4_profile.jpg"
+							alt=""
+						/>
+						<div class="desc-text">
+							<div class="title">
+								A. Alyabyev – A. Yashiro. «The Nightingale» is arranged
+								for flute and piano.
+							</div>
+							<div class="user">Petr Khudonogov</div>
+							<div class="stats">415 тыс. просмотров 9 лет назад</div>
+						</div>
+					</div>
+				</div>
+				<div class="article">
+					<div class="article-img">
+						<img class="hero" src="./images/music.png" alt="" />
+						<span class="total-time">1:10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/channels4_profile.jpg"
+							alt=""
+						/>
+						<div class="desc-text">
+							<div class="title">
+								A. Alyabyev – A. Yashiro. «The Nightingale» is arranged
+								for flute and piano.
+							</div>
+							<div class="user">Petr Khudonogov</div>
+							<div class="stats">415 тыс. просмотров 9 лет назад</div>
+						</div>
+					</div>
+				</div>
+				<div class="article">
+					<div class="article-img">
+						<img class="hero" src="./images/music.png" alt="" />
+						<span class="total-time">1:10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/channels4_profile.jpg"
+							alt=""
+						/>
+						<div class="desc-text">
+							<div class="title">
+								A. Alyabyev – A. Yashiro. «The Nightingale» is arranged
+								for flute and piano.
+							</div>
+							<div class="user">Petr Khudonogov</div>
+							<div class="stats">415 тыс. просмотров 9 лет назад</div>
+						</div>
+					</div>
+				</div>
+				<div class="article">
+					<div class="article-img">
+						<img class="hero" src="./images/music.png" alt="" />
+						<span class="total-time">1:10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/channels4_profile.jpg"
+							alt=""
+						/>
+						<div class="desc-text">
+							<div class="title">
+								A. Alyabyev – A. Yashiro. «The Nightingale» is arranged
+								for flute and piano.
+							</div>
+							<div class="user">Petr Khudonogov</div>
+							<div class="stats">415 тыс. просмотров 9 лет назад</div>
+						</div>
+					</div>
+				</div>
+				<div class="article">
+					<div class="article-img">
+						<img
+							class="hero"
+							src="./images/videoframe_92403.png"
+							alt=""
+						/>
+						<span class="total-time">10:30</span>
+					</div>
+					<div class="desc">
+						<img
+							class="avatar"
+							src="./images/channels4_profile (1).jpg"
+							alt=""
+						/>
+						<div class="desc-text">
+							<div class="title">
+								Prevent Alzheimer’s, improve Depression, Anxiety, and
+								Brain Fog: The Food's Power | Episode 17 of 18
+							</div>
+							<div class="user">Glucose Revolution</div>
+							<div class="stats">1,3 млн просмотров 3 месяца назад</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</body>
+</html>
